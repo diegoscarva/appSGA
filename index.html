@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coleta Seletiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            height: auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            width: 80px;
+            margin-right: 10px;
+        }
+        h1 {
+            margin: 0;
+            flex-grow: 1;
+            font-size: 1em;
+        }
+        .search-container {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 5px;
+            width: 150px; /* Tamanho fixo para melhorar a responsividade */
+        }
+        .container {
+            margin-top: 120px; /* Ajustado para acomodar a barra superior */
+            padding: 0 10px; /* Padding para melhor visualização em mobile */
+        }
+        .column {
+            display: inline-block;
+            width: calc(33.33% - 20px); /* Três colunas em dispositivos maiores */
+            vertical-align: top;
+            margin: 10px 5px;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        @media (max-width: 768px) {
+            .column {
+                width: calc(50% - 20px); /* Duas colunas em telas médias */
+            }
+        }
+        @media (max-width: 480px) {
+            .column {
+                width: 100%; /* Uma coluna em telas pequenas */
+            }
+            .search-input {
+                width: 100%; /* Aumenta o campo de busca em telas pequenas */
+            }
+        }
+        .papel { background-color: #003DA5; }
+        .plastico { background-color: #FF0000; }
+        .organico { background-color: #A95A2D; }
+        .metal { background-color: #FFF000; }
+        .vidro { background-color: #008000; }
+        .nao-reciclavel { background-color: #555; }
+        .item {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin: 5px 0;
+            display: block;
+        }
+        .info-section, .quiz-section {
+            display: none; /* Oculta as seções inicialmente */
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            opacity: 0.8;
+        }
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar" id="topBar">
+        <img src="https://lh7-us.googleusercontent.com/docsz/AD_4nXcfGf70SuvXKlVcT0KscD9m0QS-uPZ1y_-dPPxQDaEYL3K16vuM6K6LjwHaaunbZ_CzBgSH07HcHmQeUyJANASAmsejqaszjjnBC4pFsqzbNGFELP5vaZioS-Ctg9EJy6spezxBCkw3t-tB1RtAs_cQtvEe?key=BkJxU5HwQesmTQUGesxS7w" alt="Descrição da Imagem" class="logo">
+        <h1>ESCOLHA/BUSQUE O ITEM QUE SERÁ DESCARTADO</h1>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Procurar item" oninput="filtrarItens()">
+            <span class="search-icon">🔍</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="column papel">
+            <h2>PAPEL</h2>
+            <div class="item papel" onclick="mostrarLista(this)">Cadernos Usados</div>
+            <div class="item papel" onclick="mostrarLista(this)">Embalagens de Papel</div>
+            <div class="item papel" onclick="mostrarLista(this)">Jornais</div>
+            <div class="item papel" onclick="mostrarLista(this)">Revistas</div>
+            <div class="item papel" onclick="mostrarLista(this)">Caixas de Papel</div>
+        </div>
+        
+        <div class="column plastico">
+            <h2>Plástico</h2>
+            <div class="item plastico" onclick="mostrarLista(this)">Brinquedos de Plástico</div>
+            <div class="item plastico" onclick="mostrarLista(this)">Embalagens Plásticas</div>
+            <div class="item plastico" onclick="mostrarLista(this)">Garrafas PET</div>
+            <div class="item plastico" onclick="mostrarLista(this)">Sacolas Plásticas</div>
+            <div class="item plastico" onclick="mostrarLista(this)">Embalagens de Iogurte</div>
+        </div>
+        
+        <div class="column organico">
+            <h2>Orgânico</h2>
+            <div class="item organico" onclick="mostrarLista(this)">Cascas de Ovos</div>
+            <div class="item organico" onclick="mostrarLista(this)">Restos de Comida</div>
+            <div class="item organico" onclick="mostrarLista(this)">Restos de Frutas</div>
+            <div class="item organico" onclick="mostrarLista(this)">Restos de Pães</div>
+            <div class="item organico" onclick="mostrarLista(this)">Restos de Saladas</div>
+        </div>
+        
+        <div class="column metal">
+            <h2>Metal</h2>
+            <div class="item metal" onclick="mostrarLista(this)">Embalagens Metálicas</div>
+            <div class="item metal" onclick="mostrarLista(this)">Latas de Comida</div>
+            <div class="item metal" onclick="mostrarLista(this)">Latas de Refrigerante</div>
+            <div class="item metal" onclick="mostrarLista(this)">Panelas Velhas</div>
+            <div class="item metal" onclick="mostrarLista(this)">Tampas de Latas</div>
+        </div>
+        
+        <div class="column vidro">
+            <h2>Vidro</h2>
+            <div class="item vidro" onclick="mostrarLista(this)">Copos de Vidro</div>
+            <div class="item vidro" onclick="mostrarLista(this)">Frascos de Perfume</div>
+            <div class="item vidro" onclick="mostrarLista(this)">Garrafas de Vidro</div>
+            <div class="item vidro" onclick="mostrarLista(this)">Potes de Vidro</div>
+            <div class="item vidro" onclick="mostrarLista(this)">Vidros de Azeite</div>
+        </div>
+        
+        <div class="column nao-reciclavel">
+            <h2>Não Reciclável</h2>
+            <div class="item nao-reciclavel" onclick="mostrarLista(this)">Embalagens Não Recicláveis</div>
+            <div class="item nao-reciclavel" onclick="mostrarLista(this)">Restos de Combustíveis</div>
+        </div>
+    </div>
+
+    <div class="info-section" id="infoSection">
+        <h2 id="infoTitle"></h2>
+        <p id="infoContent"></p>
+        <button class="button" onclick="voltar()">Voltar</button>
+    </div>
+
+    <div class="quiz-section" id="quizSection">
+        <h2 id="quizTitle"></h2>
+        <p id="quizContent"></p>
+        <button class="back-button button" onclick="voltarQuiz()">Voltar</button>
+    </div>
+
+    <script>
+        const respostasCorretas = {
+            "Cadernos Usados": "papel",
+            "Embalagens de Papel": "papel",
+            "Jornais": "papel",
+            "Revistas": "papel",
+            "Caixas de Papel": "papel",
+            "Brinquedos de Plástico": "plastico",
+            "Embalagens Plásticas": "plastico",
+            "Garrafas PET": "plastico",
+            "Sacolas Plásticas": "plastico",
+            "Embalagens de Iogurte": "plastico",
+            "Cascas de Ovos": "organico",
+            "Restos de Comida": "organico",
+            "Restos de Frutas": "organico",
+            "Restos de Pães": "organico",
+            "Restos de Saladas": "organico",
+            "Embalagens Metálicas": "metal",
+            "Latas de Comida": "metal",
+            "Latas de Refrigerante": "metal",
+            "Panelas Velhas": "metal",
+            "Tampas de Latas": "metal",
+            "Copos de Vidro": "vidro",
+            "Frascos de Perfume": "vidro",
+            "Garrafas de Vidro": "vidro",
+            "Potes de Vidro": "vidro",
+            "Vidros de Azeite": "vidro",
+            "Embalagens Não Recicláveis": "nao-reciclavel",
+            "Restos de Combustíveis": "nao-reciclavel"
+        };
+
+        function mostrarLista(item) {
+            const tipo = item.innerText;
+            const respostaCerta = respostasCorretas[tipo];
+            const quizSection = document.getElementById('quizSection');
+            const quizTitle = document.getElementById('quizTitle');
+            const quizContent = document.getElementById('quizContent');
+
+            quizTitle.textContent = `Onde você acha que o item "${tipo}" deve ser descartado?`;
+            quizContent.innerHTML = `
+                <button class="button button-papel" onclick="verificarResposta('${respostaCerta}', 'papel')">Papel</button>
+                <button class="button button-plastico" onclick="verificarResposta('${respostaCerta}', 'plastico')">Plástico</button>
+                <button class="button button-metal" onclick="verificarResposta('${respostaCerta}', 'metal')">Metal</button>
+                <button class="button button-vidro" onclick="verificarResposta('${respostaCerta}', 'vidro')">Vidro</button>
+                <button class="button button-organico" onclick="verificarResposta('${respostaCerta}', 'organico')">Orgânico</button>
+                <button class="button button-nao-reciclavel" onclick="verificarResposta('${respostaCerta}', 'nao-reciclavel')">Não Reciclável</button>
+            `;
+
+            quizSection.style.display = 'block'; // Mostra a seção de quiz
+            document.querySelector('.container').style.display = 'none'; // Oculta a seção principal
+            document.getElementById('topBar').style.display = 'none'; // Oculta a barra superior
+        }
+
+        function verificarResposta(respostaCerta, respostaEscolhida) {
+            const quizContent = document.getElementById('quizContent');
+            const backButton = document.querySelector('.back-button');
+            // Curiosidades para cada tipo de resíduo
+            const curiosidades = {
+                papel: [
+                    "O papel pode ser reciclado até 7 vezes antes de perder sua qualidade.",
+                    "A reciclagem de papel economiza 60% da energia necessária para fazer papel novo.",
+                    "Um tonel de papel reciclado pode salvar até 17 árvores.",
+                    "A fabricação de papel a partir de resíduos de papel reduz a poluição da água em 92%."
+                ],
+                plastico: [
+                    "Plásticos podem levar até 1000 anos para se decompor.",
+                    "Reciclar uma tonelada de plástico pode economizar 7,4 barris de petróleo.",
+                    "Cerca de 90% dos plásticos não são reciclados."
+                ],
+                organico: [
+                    "O composto orgânico pode reduzir a quantidade de resíduos em aterros em até 50%.",
+                    "Restos de alimentos podem ser transformados em biocombustível.",
+                    "A decomposição de resíduos orgânicos libera metano, um gás que contribui para o aquecimento global."
+                ],
+                metal: [
+                    "Reciclar alumínio pode economizar até 95% da energia usada para produzir alumínio novo.",
+                    "O aço é o material mais reciclado no mundo.",
+                    "Um único recipiente de alumínio reciclado pode ser transformado em uma nova lata em menos de 60 dias."
+                ],
+                vidro: [
+                    "O vidro pode ser reciclado infinitamente sem perder qualidade.",
+                    "Reciclar vidro economiza 30% de energia em comparação com a produção de vidro novo.",
+                    "A reciclagem de vidro reduz a necessidade de extração de areia, um recurso limitado."
+                ],
+                nao_reciclavel: [
+                    "Muitos itens não recicláveis podem ser compostados, como alguns tipos de papel ou embalagens de alimentos.",
+                    "Restos de combustíveis e plásticos não recicláveis podem ser transformados em energia.",
+                    "A conscientização sobre o descarte correto pode reduzir a quantidade de resíduos não recicláveis."
+                ]
+            };
+
+            // Escolhe uma curiosidade aleatória
+            const tipoResíduo = respostaCerta; 
+            const curiosidadesTipo = curiosidades[tipoResíduo];
+            const curiosidadeAleatoria = curiosidadesTipo[Math.floor(Math.random() * curiosidadesTipo.length)];
+
+            if (respostaCerta === respostaEscolhida) {
+                quizContent.innerHTML = `
+                    <p style="font-weight: bold;">Parabéns! Você escolheu a opção correta.</p>
+                    <p style="text-align: center; color: ${getCor(tipoResíduo)}; font-size: 24px;">${tipoResíduo.toUpperCase().split('').join(' ')}</p>
+                    <p>Curiosidade: ${curiosidadeAleatoria}</p>
+                `;
+            } else {
+                quizContent.innerHTML = `<p>Incorreto. Tente novamente!</p>`;
+            }
+            backButton.style.display = 'block';
+        }
+
+        function getCor(tipo) {
+            switch (tipo) {
+                case 'papel':
+                    return '#003DA5';
+                case 'plastico':
+                    return '#FF0000';
+                case 'metal':
+                    return '#FFF000';
+                case 'vidro':
+                    return '#008000';
+                case 'organico':
+                    return '#A95A2D';
+                case 'nao_reciclavel':
+                    return '#555'; // Cor já definida, mas certifique-se que está correta
+                default:
+                    return 'black';
+            }
+        }
+
+        function voltar() {
+            const infoSection = document.getElementById('infoSection');
+            infoSection.style.display = 'none'; // Oculta a seção de informações
+            document.querySelector('.container').style.display = 'block'; // Mostra a seção principal
+            document.getElementById('topBar').style.display = 'flex'; // Mostra a barra superior
+        }
+
+        function voltarQuiz() {
+            const quizSection = document.getElementById('quizSection');
+            quizSection.style.display = 'none'; // Oculta a seção de quiz
+            document.querySelector('.container').style.display = 'block'; // Mostra a seção principal
+            document.getElementById('topBar').style.display = 'flex'; // Mostra a barra superior
+        }
+
+        function filtrarItens() {
+            const input = document.querySelector('.search-input').value.toLowerCase();
+            const columns = document.querySelectorAll('.column');
+
+            columns.forEach(column => {
+                const items = column.querySelectorAll('.item');
+                let hasVisibleItems = false;
+
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(input)) {
+                        item.style.display = 'block';
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
