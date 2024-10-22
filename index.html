@@ -7,26 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f0f0;
-            text-align: center;
-            padding: 0;
-            margin: 0;
-            font-size: 0.9em;
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        font-size: 1em; /* Aumentei um pouco para melhor legibilidade */
         }
+
         .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            height: auto;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
         }
         .logo {
             width: 80px;
@@ -51,47 +48,49 @@
             width: 150px; /* Tamanho fixo para melhorar a responsividade */
         }
         .container {
-            margin-top: 120px; /* Ajustado para acomodar a barra superior */
-            padding: 0 10px; /* Padding para melhor visualização em mobile */
+        margin-top: 80px; /* Reduzido para melhor acomodação */
+        padding: 0 5%; /* Ajustado para melhor visualização em mobile */
         }
         .column {
-            display: inline-block;
-            width: calc(33.33% - 20px); /* Três colunas em dispositivos maiores */
-            vertical-align: top;
-            margin: 0 1%;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        display: inline-block;
+        width: calc(33.33% - 20px); /* Três colunas em dispositivos maiores */
+        vertical-align: top;
+        margin: 10px; /* Margem aumentada para melhor espaçamento */
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         @media (max-width: 768px) {
-            .column {
-                width: calc(50% - 20px); /* Duas colunas em telas médias */
-            }
+        .column {
+        width: calc(50% - 20px); /* Duas colunas em telas médias */
         }
+        }
+
         @media (max-width: 480px) {
-            .column {
-                width: 100%; /* Uma coluna em telas pequenas */
-            }
-            .search-input {
-                width: 100%; /* Aumenta o campo de busca em telas pequenas */
-            }
+        .column {
+        width: 100%; /* Uma coluna em telas pequenas */
         }
+        .search-input {
+        width: 100%; /* Aumenta o campo de busca em telas pequenas */
+        }
+        }
+
         .papel { background-color: #003DA5; }
         .plastico { background-color: #FF0000; }
         .organico { background-color: #A95A2D; }
         .metal { background-color: #FFF000; }
         .vidro { background-color: #008000; }
         .nao-reciclavel { background-color: #555; }
-        .item {
-            padding: 10px;
-            border-radius: 5px;
-            background-color: white;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin: 5px 0;
-            display: block;
+       .item {
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s;
+        margin: 5px 0;
+        display: block;
         }
         .info-section, .quiz-section {
             display: none; /* Oculta as seções inicialmente */
